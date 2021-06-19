@@ -8,8 +8,8 @@ try {
     const server = new Server();
     server.init();
 
-    const database = new Database();
-    database.init();
+    // const database = new Database();
+    // database.init();
 } catch (err) {
     console.log(err);
 }

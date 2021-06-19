@@ -1,6 +1,6 @@
-import { Schema, model as Model } from 'mongoose';
+import Mongoose from 'mongoose';
 
 export default {
-    Schema,
-    Model
+    Schema: Mongoose.Schema,
+    Model: Mongoose.model
 };

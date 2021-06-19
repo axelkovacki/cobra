@@ -1,5 +1,6 @@
 import Express from 'express';
 import Cors from 'cors';
+import HttpController from '../../controller/HttpController.js';
 
 export default class Server {
     constructor() {
@@ -13,7 +14,7 @@ export default class Server {
         try {
             this.server.use(this.cors);
             this.server.use(this.parser);
-            this.router();
+            this.server.use(this.router);
 
             this.server.listen(this.port);
             console.log(this.getListeningMessage());
@@ -23,10 +24,24 @@ export default class Server {
         }
     }
 
-    router() {
-        this.server.get('/', (req, res) => {
-            return res.send('Cobra API is alive!');
-        });
+    router(req, res, next) {
+        if (req.method === 'GET') {
+            return HttpController.get(req, res);
+        }
+
+        if (req.method === 'POST') {
+            return HttpController.post(req, res);
+        }
+
+        if (req.method === 'PUT') {
+            return HttpController.put(req, res);
+        }
+
+        if (req.method === 'DELETE') {
+            return HttpController.delete(req, res);
+        }
+
+        next();
     }
 
     getListeningMessage() {
