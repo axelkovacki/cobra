@@ -1,12 +1,12 @@
-import BlackListFilter from '../core/use-case/BlackListFilter.js';
-import BlackListRepository from '../core/repository/BlackListRepository.js';
+import BlackListFilter from '../core/case/BlackListFilter';
+import BlackListRepositoryMongoDB from '../core/repository/blacklist/BlackListRepositoryMongoDB';
 
 export default class HttpController {
     static async get(req, res) {
         try {
             const { socket, method, url, headers } = req;
 
-            const blackListRepository = new BlackListRepository();
+            const blackListRepository = new BlackListRepositoryMongoDB();
             const blackListFilter = new BlackListFilter(blackListRepository);
 
             await blackListFilter.execute(
@@ -17,7 +17,7 @@ export default class HttpController {
             );
 
             return res.send({
-                data: 'boa'
+                data: 'test'
             }, 200);
         } catch (err) {
             return res.send({

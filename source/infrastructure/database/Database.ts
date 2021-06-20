@@ -1,6 +1,8 @@
 import Mongoose from 'mongoose';
 
 export default class Database {
+    connector: any;
+
     constructor() {
         this.connector = Mongoose;
     }

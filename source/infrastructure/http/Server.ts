@@ -1,13 +1,18 @@
 import Express from 'express';
 import Cors from 'cors';
-import HttpController from '../../controller/HttpController.js';
+import HttpController from '../../controller/HttpController';
 
 export default class Server {
+    server: any;
+    cors: any;
+    parser: any;
+    port: string;
+
     constructor() {
         this.server = new Express();
         this.cors = Cors();
         this.parser = Express.json();
-        this.port = process.env.HTTP_PORT || 8080;
+        this.port = process.env.HTTP_PORT || '8080';
     }
 
     async init() {
@@ -46,9 +51,9 @@ export default class Server {
 
     getListeningMessage() {
         return `
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-        COBRA on in ${this.port}
-<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+            >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+                    COBRA on in ${this.port}
+            <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
         `;
     }
 }
