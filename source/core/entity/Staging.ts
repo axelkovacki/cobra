@@ -1,4 +1,4 @@
-export default class StagingList {
+export default class Staging {
     ip: string;
     method: string;
     url: string;

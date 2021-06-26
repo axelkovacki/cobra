@@ -1,4 +1,4 @@
-import BlackListFilter from '../core/case/BlackListFilter';
+import BlackListFilter from '../core/case/BlackListFilter/BlackListFilter';
 import BlackListRepositoryMongoDB from '../core/repository/blacklist/BlackListRepositoryMongoDB';
 
 export default class HttpController {
@@ -10,10 +10,7 @@ export default class HttpController {
             const blackListFilter = new BlackListFilter(blackListRepository);
 
             await blackListFilter.execute(
-                socket.remoteAddress,
-                req.method,
-                req.url,
-                req.headers
+                socket.remoteAddress
             );
 
             return res.send({

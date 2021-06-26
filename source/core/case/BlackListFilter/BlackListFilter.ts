@@ -1,4 +1,4 @@
-import IBlackListRepository from "../repository/blacklist/IBlackListRepository";
+import IBlackListRepository from "../../repository/blacklist/IBlackListRepository";
 
 export default class BlackListFilter {
     blackListRepository: IBlackListRepository;
