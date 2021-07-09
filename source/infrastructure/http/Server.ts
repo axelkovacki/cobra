@@ -1,4 +1,5 @@
 import Express from 'express';
+import ExpressAdapter from '../../adapter/ExpressAdapter';
 import Cors from 'cors';
 import HttpController from '../../controller/HttpController';
 
@@ -35,15 +36,15 @@ export default class Server {
         }
 
         if (req.method === 'POST') {
-            return HttpController.post(req, res);
+            return ExpressAdapter.create(HttpController.post);
         }
 
         if (req.method === 'PUT') {
-            return HttpController.put(req, res);
+            return ExpressAdapter.create(HttpController.put);
         }
 
         if (req.method === 'DELETE') {
-            return HttpController.delete(req, res);
+            return ExpressAdapter.create(HttpController.delete);
         }
 
         next();

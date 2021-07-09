@@ -1,5 +1,6 @@
-import BlackListFilter from '../core/case/BlackListFilter/BlackListFilter';
-import BlackListRepositoryMongoDB from '../core/repository/blacklist/BlackListRepositoryMongoDB';
+import ForwardToHost from '../core/use-case/forward-to-host/ForwardToHost';
+import BlackListRepositoryMongoDB from '../core/repository/black-list/BlackListRepositoryMongoDB';
+import StagingRepositoryMemory from '../core/repository/staging-area/StagingAreaRepositoryMemory';
 
 export default class HttpController {
     static async get(req, res) {
@@ -7,10 +8,18 @@ export default class HttpController {
             const { socket, method, url, headers } = req;
 
             const blackListRepository = new BlackListRepositoryMongoDB();
-            const blackListFilter = new BlackListFilter(blackListRepository);
+            const stagingAreaRepository = new StagingRepositoryMemory();
 
-            await blackListFilter.execute(
-                socket.remoteAddress
+            const forwardToHost = new ForwardToHost(
+                blackListRepository,
+                stagingAreaRepository
+            );
+
+            await forwardToHost.execute(
+                socket.remoteAddress,
+                method,
+                url,
+                headers
             );
 
             return res.send({
