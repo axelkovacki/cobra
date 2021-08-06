@@ -9,7 +9,7 @@ export default class BlackListRepositoryMongoDB implements IBlackListRepository 
     }
 
     schema(manager) {
-        const { Schema, Model } = manager;
+        const { Schema, Model, Models } = manager;
 
         const BlackListSchema = new Schema({
             ip: String,
@@ -21,11 +21,11 @@ export default class BlackListRepositoryMongoDB implements IBlackListRepository 
             timestamps: true
         });
 
-        return Model('BlackList', BlackListSchema);
+        return Models.BlackList || Model('BlackList', BlackListSchema);
     }
 
     async insert(ip: string): Promise<void> {
-        await this.manager.insert({ ip });
+        await this.manager.create({ ip });
     }
 
     async hasIn(ip): Promise<boolean> {

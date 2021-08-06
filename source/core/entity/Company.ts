@@ -1,11 +1,11 @@
 export default class Company {
-    name: string;
-    apps: any;
-    key: any;
+    constructor(
+        public id: string,
+        public name: string,
+        public token: string
+    ) {}
 
-    constructor(name, apps, key) {
-        this.name = name;
-        this.apps = apps;
-        this.key = key;
+    isValidToken(token) {
+        return (token === this.token);
     }
 };

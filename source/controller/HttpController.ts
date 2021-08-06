@@ -1,30 +1,42 @@
+import HandleBlackList from '../core/use-case/handle-black-list/HandleBlackList';
 import ForwardToHost from '../core/use-case/forward-to-host/ForwardToHost';
 import BlackListRepositoryMongoDB from '../core/repository/black-list/BlackListRepositoryMongoDB';
-import StagingRepositoryMemory from '../core/repository/staging-area/StagingAreaRepositoryMemory';
+import StagingAreaRepositoryMongoDB from '../core/repository/staging-area/StagingAreaRepositoryMongoDB';
+import timestampFormatter from '../core/shared/TimestampFormatter';
+import requestMaker from '../core/shared/RequestMaker';
 
 export default class HttpController {
     static async get(req, res) {
         try {
             const { socket, method, url, headers } = req;
+            console.log(url)
 
             const blackListRepository = new BlackListRepositoryMongoDB();
-            const stagingAreaRepository = new StagingRepositoryMemory();
+            const stagingAreaRepository = new StagingAreaRepositoryMongoDB();
 
-            const forwardToHost = new ForwardToHost(
+            const handleBlackList = new HandleBlackList(
                 blackListRepository,
-                stagingAreaRepository
+                stagingAreaRepository,
+                timestampFormatter
             );
 
-            await forwardToHost.execute(
+            await handleBlackList.execute(
                 socket.remoteAddress,
                 method,
                 url,
                 headers
             );
 
-            return res.send({
-                data: 'test'
-            }, 200);
+            // const forwardToHost = new ForwardToHost(requestMaker);
+
+            // const response = await forwardToHost.execute(
+            //     socket.remoteAddress,
+            //     method,
+            //     url,
+            //     headers
+            // );
+
+            return res.send({teste: 'response'}, 200);
         } catch (err) {
             return res.send({
                 error: err.message
