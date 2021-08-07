@@ -1,17 +1,18 @@
 import Authenticate from '../core/use-case/authenticate/Authenticate';
-import CompanyRepositoryMongoDB from '../core/repository/company/CompanyRepositoryMongoDB';
+import CompanyAppRepositoryMongoDB from '../core/repository/company-app/CompanyAppRepositoryMongoDB';
 
 export default class AuthenticationMiddleware {
     static async handle(req, res) {
-        const { headers: { Authorization } } = req;
-        const companyRepository = new CompanyRepositoryMongoDB();
+        const { headers: { authorization } } = req;
+
+        const companyAppRepository = new CompanyAppRepositoryMongoDB();
 
         const authenticate = new Authenticate(
-            companyRepository
+            companyAppRepository
         );
 
-        await authenticate.execute(
-            Authorization
+        return await authenticate.execute(
+            authorization
         );
     }
 }

@@ -9,9 +9,7 @@ export default class StagingRepositoryMongoDB implements IStagingAreaRepository 
         this.manager = this.schema(DatabaseManager);
     }
 
-    schema(manager) {
-        const { Schema, Model, Models } = manager;
-
+    schema({ Schema, Model, Models }) {
         const StagingAreaSchema = new Schema({
             ip: String,
             payload: Schema.Types.Mixed

@@ -1,17 +1,17 @@
-import ICompanyRepository from '../../repository/company/ICompanyRepository';
+import ICompanyAppRepository from '../../repository/company-app/ICompanyAppRepository';
 
 export default class Authenticate {
     constructor(
-        private companyRepository: ICompanyRepository
+        private companyAppRepository: ICompanyAppRepository
     ) {}
 
     async execute(authorization: string) {
-        const company = await this.companyRepository.findByAuthorization(authorization);
+        const companyApp = await this.companyAppRepository.findByAuthorization(authorization);
 
-        if (!company) {
+        if (!companyApp) {
             throw new Error('Not Authenticated');
         }
 
-        return company;
+        return companyApp;
     }
 }

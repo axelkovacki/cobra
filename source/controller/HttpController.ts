@@ -7,43 +7,39 @@ import requestMaker from '../core/shared/RequestMaker';
 
 export default class HttpController {
     static async get(req, res) {
-        try {
-            const { socket, method, url, headers } = req;
-            const blackListRepository = new BlackListRepositoryMongoDB();
-            const stagingAreaRepository = new StagingAreaRepositoryMongoDB();
+        const { socket, method, url, headers, app } = req;
 
-            const handleBlackList = new HandleBlackList(
-                blackListRepository,
-                stagingAreaRepository,
-                timestampFormatter
-            );
+        const blackListRepository = new BlackListRepositoryMongoDB();
+        const stagingAreaRepository = new StagingAreaRepositoryMongoDB();
 
-            await handleBlackList.execute(
-                socket.remoteAddress,
-                method,
-                url,
-                headers
-            );
+        const handleBlackList = new HandleBlackList(
+            blackListRepository,
+            stagingAreaRepository,
+            timestampFormatter
+        );
 
-            const forwardToHost = new ForwardToHost(requestMaker);
+        await handleBlackList.execute(
+            socket.remoteAddress,
+            method,
+            url,
+            headers
+        );
 
-            // const response = await forwardToHost.execute(
-            //     socket.remoteAddress,
-            //     method,
-            //     url,
-            //     headers
-            // );
+        const forwardToHost = new ForwardToHost(
+            requestMaker,
+            app
+        );
 
-            return res
-                .status(200)
-                .send('response');
-        } catch (err) {
-            return res
-                .status(500)
-                .send({
-                    error: err.message
-                });
-        }
+        const response = await forwardToHost.execute(
+            socket.remoteAddress,
+            method,
+            url,
+            headers
+        );
+
+        return res
+            .status(200)
+            .send(response);
     }
 
     static post(req, res) {}

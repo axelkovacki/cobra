@@ -8,9 +8,7 @@ export default class BlackListRepositoryMongoDB implements IBlackListRepository 
         this.manager = this.schema(DatabaseManager);
     }
 
-    schema(manager) {
-        const { Schema, Model, Models } = manager;
-
+    schema({ Schema, Model, Models }) {
         const BlackListSchema = new Schema({
             ip: String,
             method: String,
