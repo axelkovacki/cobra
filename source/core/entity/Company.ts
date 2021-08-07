@@ -1,11 +1,6 @@
 export default class Company {
     constructor(
-        public id: string,
         public name: string,
-        public token: string
+        public apps: Array<any>
     ) {}
-
-    isValidToken(token) {
-        return (token === this.token);
-    }
 };

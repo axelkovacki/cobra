@@ -15,7 +15,7 @@ export default class CompanyRepositoryMongoDB implements ICompanyRepository {
 
         const CompanySchema = new Schema({
             name: String,
-            token: String
+            apps: Schema.Types.Mixed
         }, {
             strict: false,
             timestamps: true
@@ -24,16 +24,27 @@ export default class CompanyRepositoryMongoDB implements ICompanyRepository {
         return Models.Company || Model('Company', CompanySchema);
     }
 
-    async insert(name: string, token: string): Promise<Company> {
+    async insert(name: string, apps: Array<any>): Promise<Company> {
         const company = await this.manager.create({
             name,
-            token
+            apps
         });
 
         return CompanyAdapter.create(
-            company._id,
             company.name,
-            company.token
-        )
+            company.apps
+        );
+    }
+
+    async findByAuthorization(authorization: string): Promise<Company> {
+        const company = await this.manager.create({
+            name,
+            apps
+        });
+
+        return CompanyAdapter.create(
+            company.name,
+            company.apps
+        );
     }
 }

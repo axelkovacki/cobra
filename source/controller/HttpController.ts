@@ -9,8 +9,6 @@ export default class HttpController {
     static async get(req, res) {
         try {
             const { socket, method, url, headers } = req;
-            console.log(url)
-
             const blackListRepository = new BlackListRepositoryMongoDB();
             const stagingAreaRepository = new StagingAreaRepositoryMongoDB();
 
@@ -27,7 +25,7 @@ export default class HttpController {
                 headers
             );
 
-            // const forwardToHost = new ForwardToHost(requestMaker);
+            const forwardToHost = new ForwardToHost(requestMaker);
 
             // const response = await forwardToHost.execute(
             //     socket.remoteAddress,
@@ -36,11 +34,15 @@ export default class HttpController {
             //     headers
             // );
 
-            return res.send({teste: 'response'}, 200);
+            return res
+                .status(200)
+                .send('response');
         } catch (err) {
-            return res.send({
-                error: err.message
-            }, 500);
+            return res
+                .status(500)
+                .send({
+                    error: err.message
+                });
         }
     }
 
