@@ -5,7 +5,9 @@
   "main": "source/index.ts",
   "scripts": {
     "test": "jest",
-    "start": "npx ts-node-dev --respawn --transpile-only source/index.ts"
+    "start": "npx ts-node-dev --respawn --transpile-only source/index.ts",
+    "prod": "npm run build && node distribution/index.js",
+    "build": "rm -rf dist && npx tsc -p tsconfig-build.json"
   },
   "keywords": [],
   "author": "",

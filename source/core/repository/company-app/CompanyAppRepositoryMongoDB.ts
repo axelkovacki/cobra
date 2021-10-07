@@ -24,6 +24,18 @@ export default class CompanyAppRepositoryMongoDB implements ICompanyAppRepositor
     }
 
     async findByAuthorization(authorization: string): Promise<CompanyApp | boolean> {
+        const apps = await this.manager.find();
+
+        if (!apps.length) {
+            const model = new this.manager({
+                name: 'Test',
+                domain: 'https://google.com.br',
+                token: '123456'
+            });
+
+            model.save();
+        }
+
         const companyApp = await this.manager.findOne({ token: authorization });
 
         if (!companyApp) {

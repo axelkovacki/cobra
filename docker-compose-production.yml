@@ -1,0 +1,39 @@
+version: "3.3"
+services:
+  cobra-nodejs:
+    build:
+      context: .
+      dockerfile: ./devops/Dockerfile
+    image: nodejs
+    restart: always
+    env_file: .env
+    tty: true
+    depends_on:
+      - cobra-mongodb
+    ports:
+      - "3001:3001"
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules/
+    links:
+      - cobra-mongodb
+    networks:
+      - app-network  
+  cobra-mongodb:
+    image: mongo:4.1.8-xenial
+    container_name: cobra-mongodb
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=$MONGO_USERNAME
+      - MONGO_INITDB_ROOT_PASSWORD=$MONGO_PASSWORD
+    volumes:
+      - dbdata:/data/mongodb
+    networks:
+      - app-network
+volumes:
+    dbdata:
+    node_modules:
+networks:
+  app-network:
+    driver: bridge
