@@ -30,7 +30,7 @@ export default class CompanyAppRepositoryMongoDB implements ICompanyAppRepositor
             const model = new this.manager({
                 name: 'Test',
                 domain: 'https://google.com.br',
-                token: '123456'
+                token: '2cc7cc8a2f546a2e115d771a326c74924663d9ffd80974c686a756de4304997a'
             });
 
             model.save();
